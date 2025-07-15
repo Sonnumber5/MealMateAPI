@@ -7,7 +7,7 @@ router.route('/ingredients').post(IngredientsController.createIngredient);
 
 router.route('/ingredients').get(IngredientsController.readIngredients);
 
-router.route('/ingredients/:ingredient').get(IngredientsController.readIngredientByName);
+router.route('/ingredients/name/:ingredient').get(IngredientsController.readIngredientByName);
 
 router.route('/ingredients/search/name/:search').get(IngredientsController.readIngredientByNameSearch);
 

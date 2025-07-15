@@ -11,7 +11,7 @@ export const readMealPlans = async (userId: number) => {
     return execute<MealPlanDTO[]>(mealPlanQueries.readMealPlansDTO, [userId]);
 };
 
-export const readMealPlansByDate = async (date: Date, userId: number) => {
+export const readMealPlansByDate = async (date: string, userId: number) => {
     return execute<MealPlanDTO[]>(mealPlanQueries.readMealPlansDTOByDate, [date, userId]);
 };
 

@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express, { Request, Response } from 'express'; // Imports express and the Request/Response types for type safety
 import ingredientRouter from './Ingredients/ingredients.routes'; // Custom router for ingredients
 import mealIngredientRouter from './Meal Ingredients/mealIngredients.routes'; // Custom router for meal ingredients 
+import mealPlanRouter from './Meal Plans/mealPlans.routes'; //custom router for meal plans
+import mealRouter from './Meals/meals.routes'; //custom router for meals
 import logger from './middleware/logger.middleware'; // Custom logging middleware
 import cors from 'cors'; // CORS middleware
 import helmet from 'helmet'; // Security middleware
@@ -34,11 +36,11 @@ if (process.env.NODE_ENV == 'development') {
 //Application routes
 // Root route
 app.get('/', (req: Request, res: Response) => {
-    res.send('<h1>Welcome to the Music API</h1>')
+    res.send('<h1>Welcome to the MealMate API</h1>')
 });
 
 // Mount routers 
-app.use('/', [ingredientRouter, mealIngredientRouter]); // Use albums, tracks, and artists routes for the root path
+app.use('/', [ingredientRouter, mealIngredientRouter, mealPlanRouter, mealRouter]); // Use albums, tracks, and artists routes for the root path
 
 // Start the Express server
 app.listen(port, () => {

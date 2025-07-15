@@ -11,7 +11,7 @@ export const readMeals = async (userId: number) => {
     return execute<MealDTO[]>(mealQueries.readMealsDTO, [userId]);
 };
 
-export const readMealsByCategory = async (categoryId: number, userId: number) => {
+export const readMealsByCategoryId = async (categoryId: number, userId: number) => {
     return execute<MealDTO[]>(mealQueries.readMealsDTOByCategory, [categoryId, userId]);
 };
 
