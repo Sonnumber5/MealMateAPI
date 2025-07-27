@@ -43,8 +43,9 @@ export const readIngredientByName: RequestHandler = async (req: Request, res: Re
     try{
         console.log('ingredient', req.params.ingredient);
         const ingredients = await ingredientsDAO.readIngredientByName(req.params.ingredient, userId);
+        let ingredientToReturn = ingredients[0];
 
-        res.status(200).json(ingredients);
+        res.status(200).json(ingredientToReturn);
 
     } catch(error) {
         console.error('[ingredients.controller][readIngredientsByName][Error] ', error);

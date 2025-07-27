@@ -1,5 +1,7 @@
 export const mealQueries = {
     
+    readCategories: `SELECT id AS categoryId, name from categories`,
+
     createMeal: 
         `INSERT INTO meals (name, description, default_categories_id, users_id) 
         VALUES (?, ?, ?, ?);`,

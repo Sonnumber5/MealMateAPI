@@ -21,9 +21,58 @@ export const createMealIngredient: RequestHandler = async (req: Request, res: Re
     }
 };
 
+export const readMeasurements: RequestHandler = async (req: Request, res: Response) => {
+    try{
+        console.log('Measurements', req.body);
+        const measurements = await mealIngredientsDAO.readMeasurements();
+        res.status(200).json(measurements);
+    }catch(error){
+        console.error('[mealIngredients.controller][readMeasurements][Error] ', error);
+        res.status(500).json({
+            message: 'There was an error when attempting to read measurements'
+        });
+    }
+}
+
+export const readMealIngredientDTOByMealAndIngredientId: RequestHandler = async (req: Request, res: Response) => {
+    let userId = 1;
+    try{
+        let mealId = parseInt(req.params.mealId);
+        let ingredientId = parseInt(req.params.ingredientId);
+        console.log('Meal Ingredient', req.body);
+
+        const mealIngredients = await mealIngredientsDAO.readMealIngredientDTOByMealAndIngredientId(mealId, ingredientId, userId);
+
+        const mealIngredient = mealIngredients[0];
+
+        res.status(200).json(mealIngredient);
+    }catch(error){
+        console.error('[mealIngredients.controller][readMealIngredientDTOByMealAndIngredientId][Error] ', error);
+        res.status(500).json({
+            message: 'There was an error when attempting to read the meal ingredient'
+        });
+    }
+}
+
+export const readMealIngredientsDTO: RequestHandler = async (req: Request, res: Response) => {
+    let userId = 1;
+    try{
+        console.log('Meal Ingredients', req.body);
+
+        const mealIngredients = await mealIngredientsDAO.readMealIngredients(userId);
+
+        res.status(200).json(mealIngredients);
+    }catch(error){
+        console.error('[mealIngredients.controller][readMealIngredients][Error] ', error);
+        res.status(500).json({
+            message: 'There was an error when attempting to read meal ingredients'
+        });
+    }
+}
+
 export const readMealIngredientsByMealId: RequestHandler = async (req: Request, res: Response) => {
     try{
-        console.log('Meal Ingredients', req.params.mealId);
+        console.log('Meal Ingredients', req.body);
 
         let mealId = parseInt(req.params.mealId as string);
         const mealIngredients = await mealIngredientsDAO.readMealIngredientsByMealId(mealId);
@@ -33,7 +82,7 @@ export const readMealIngredientsByMealId: RequestHandler = async (req: Request, 
     } catch(error) {
         console.error('[mealIngredients.controller][readMealIngredientsByMealId][Error] ', error);
         res.status(500).json({
-            message: 'There was an error when attemptoing to read meal ingredients by meal ID'
+            message: 'There was an error when attempting to read meal ingredients by meal ID'
         });
     }
 };
@@ -47,7 +96,9 @@ export const updateMealIngredient: RequestHandler = async (req: Request, res: Re
             measurementId: parseInt(req.body.measurementId as string)
         };
 
-        const okPacket: OkPacket = await mealIngredientsDAO.updateMealIngredient(mealIngredient);
+        let originalIngredientId = parseInt(req.params.originalIngredientId);
+
+        const okPacket: OkPacket = await mealIngredientsDAO.updateMealIngredient(originalIngredientId, mealIngredient);
 
         console.log('req.body', req.body);
         

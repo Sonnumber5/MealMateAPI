@@ -16,11 +16,11 @@ export const readMealsByCategoryId = async (categoryId: number, userId: number) 
 };
 
 export const readMealById = async (mealId: number, userId: number) => {
-    return execute<MealDTO>(mealQueries.readMealDTOById, [mealId, userId]);
+    return execute<MealDTO[]>(mealQueries.readMealDTOById, [mealId, userId]);
 };
 
 export const readMealByName = async (mealName: string, userId: number) => {
-    return execute<MealDTO>(mealQueries.readMealDTOByName, [mealName, userId]);
+    return execute<MealDTO[]>(mealQueries.readMealDTOByName, [mealName, userId]);
 };
 
 export const readMealsByNameSearch = async (search: string, userId: number) => {

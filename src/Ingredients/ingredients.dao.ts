@@ -12,7 +12,7 @@ export const readIngredients = async (userId: number) => {
 };
 
 export const readIngredientByName = async (ingredient: string, userId: number) => {
-    return execute<Ingredient>(ingredientQueries.readIngredientByName, [ingredient, userId]);
+    return execute<Ingredient[]>(ingredientQueries.readIngredientByName, [ingredient, userId]);
 };
 
 export const readIngredientByNameSearch = async (search: string, userId: number) => {

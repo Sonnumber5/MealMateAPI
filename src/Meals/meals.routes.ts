@@ -13,7 +13,7 @@ router.route('/meals/category/:categoryId').get(mealsController.readMealsByCateg
 
 router.route('/meals/search/ingredients/:search').get(mealsController.readMealsByIngredientSearch);
 
-router.route('/meals/search/descriprion/:search').get(mealsController.readMealsByDescriptionSearch);
+router.route('/meals/search/description/:search').get(mealsController.readMealsByDescriptionSearch);
 
 router.route('/meals/filters/asc').get(mealsController.readMealsByAlphabetAsc);
 

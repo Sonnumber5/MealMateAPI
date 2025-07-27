@@ -54,8 +54,9 @@ export const readMealById: RequestHandler = async (req: Request, res: Response) 
     let userId = 1;
     try{
         let mealId = parseInt(req.params.mealId as string)
-        const meal = await mealsDAO.readMealById(mealId, userId);
+        const meals = await mealsDAO.readMealById(mealId, userId);
 
+        let meal = meals[0];
         res.status(200).json(meal);
     }catch (error){
         console.log('[meals.controller][readMealsById][Error]', error);
@@ -68,8 +69,9 @@ export const readMealById: RequestHandler = async (req: Request, res: Response) 
 export const readMealByName: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
     try{
-        const meal = await mealsDAO.readMealByName(req.params.mealName, userId);
+        const meals = await mealsDAO.readMealByName(req.params.mealName, userId);
 
+        let meal = meals[0];
         res.status(200).json(meal);
     }catch (error){
         console.log('[meals.controller][readMealByName][Error]', error);
