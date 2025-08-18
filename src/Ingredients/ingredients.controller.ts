@@ -7,10 +7,9 @@ import * as ingredientsDAO from './ingredients.dao';
 export const createIngredient: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1; //user id 1 for testing 
     try{
-        const okPacket: OkPacket = await ingredientsDAO.createIngredient(req.body, userId);
+        const okPacket: OkPacket = await ingredientsDAO.createIngredient(req.body.name, userId);
         
         console.log('req.body', req.body);
-
         console.log('ingredient', okPacket);
 
         res.status(201).json(okPacket);
@@ -18,10 +17,11 @@ export const createIngredient: RequestHandler = async (req: Request, res: Respon
     } catch(error) {
         console.error('[ingredients.controller][createIngredient][Error] ', error);
         res.status(500).json({
-            message: 'There was an error when attemptoing to create ingredient'
+            message: 'There was an error when attempting to create ingredient'
         });
     }
 };
+
 
 export const readIngredients: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1; //user id 1 for testing 

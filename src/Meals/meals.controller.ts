@@ -2,6 +2,8 @@ import { Meal, MealDTO } from "./meals.model";
 import { RequestHandler, Request, Response } from "express";
 import { OkPacket } from "mysql";
 import * as mealsDAO from './meals.dao';
+import { Ingredient } from "../Ingredients/ingredients.model";
+import * as mealIngredientsDAO from "../Meal Ingredients/mealIngredients.dao";
 
 export const createMeal: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
@@ -21,10 +23,30 @@ export const createMeal: RequestHandler = async (req: Request, res: Response) =>
     }
 }
 
+
 export const readMeals: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
     try{
         const meals = await mealsDAO.readMeals(userId);
+
+        await readIngredients(meals);
+
+        res.status(200).json(meals);
+    }catch (error){
+        console.log('[meals.controller][readMeals][Error]', error);
+        res.status(500).json({
+            message: 'There was an error while attempting to read meals'
+        });
+    }
+}
+
+export const readMealsBySearchParams: RequestHandler = async (req: Request, res: Response) => {
+    let userId = 1;
+    try{
+        const searchParam = req.params.searchParam as string || '';
+        const meals = await mealsDAO.readMealsBySearchParams(userId, searchParam);
+
+        await readIngredients(meals);
 
         res.status(200).json(meals);
     }catch (error){
@@ -46,6 +68,39 @@ export const readMealsByCategoryId: RequestHandler = async (req: Request, res: R
         console.log('[meals.controller][readMealsByCategory][Error]', error);
         res.status(500).json({
             message: 'There was an error while attempting to read meals by category'
+        });
+    }
+}
+
+export const readMealsByCategory: RequestHandler = async (req: Request, res: Response) => {
+    let userId = 1;
+    try{
+        let category = req.params.category as string;
+        const meals = await mealsDAO.readMealsByCategory(category, userId);
+
+        await readIngredients(meals);
+
+        res.status(200).json(meals);
+    }catch (error){
+        console.log('[meals.controller][readMealsByCategory][Error]', error);
+        res.status(500).json({
+            message: 'There was an error while attempting to read meals by category'
+        });
+    }
+}
+
+export const readMealsByNameSearchAndCategory: RequestHandler = async (req: Request, res: Response) => {
+    let userId = 1;
+    try{
+        let categoryId = parseInt(req.params.categoryId as string);
+        let mealName = (req.params.search as string);
+        const meals = await mealsDAO.readMealsByNameSearchAndCategory(categoryId, mealName, userId);
+
+        res.status(200).json(meals);
+    }catch (error){
+        console.log('[meals.controller][readMealsByNameSearchAndCategory][Error]', error);
+        res.status(500).json({
+            message: 'There was an error while attempting to read meals by category and name'
         });
     }
 }
@@ -184,5 +239,18 @@ export const deleteMeal: RequestHandler = async (req: Request, res: Response) =>
         res.status(500).json({
             message: 'There was an error while attempting to delete meal'
         });
+    }
+}
+
+async function readIngredients(meals: MealDTO[]) {
+    console.log('readIngredients called');
+    for (let i = 0; i < meals.length; i++){
+        try{
+            const mealIngredients = await mealIngredientsDAO.readMealIngredientsByMealId(meals[i].mealId);
+            meals[i].mealIngredients = mealIngredients;
+        } catch(error){
+            console.error('Error fetching ingredients for mealId', meals[i].mealId, error);
+            meals[i].mealIngredients = [];
+        }
     }
 }

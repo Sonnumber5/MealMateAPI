@@ -11,6 +11,14 @@ export const readMeals = async (userId: number) => {
     return execute<MealDTO[]>(mealQueries.readMealsDTO, [userId]);
 };
 
+export const readMealsBySearchParams = async (userId: number, searchParam: string) => {
+    return execute<MealDTO[]>(mealQueries.readMealsBySearchParams, [userId, '%' + searchParam + '%', '%' + searchParam + '%', '%' + searchParam + '%']);
+};
+
+export const readMealsByCategory = async (category: string, userId: number) => {
+    return execute<MealDTO[]>(mealQueries.readMealsDTOByCategory, [category, userId]);
+};
+
 export const readMealsByCategoryId = async (categoryId: number, userId: number) => {
     return execute<MealDTO[]>(mealQueries.readMealsDTOByCategory, [categoryId, userId]);
 };
@@ -21,6 +29,10 @@ export const readMealById = async (mealId: number, userId: number) => {
 
 export const readMealByName = async (mealName: string, userId: number) => {
     return execute<MealDTO[]>(mealQueries.readMealDTOByName, [mealName, userId]);
+};
+
+export const readMealsByNameSearchAndCategory = async (categoryId: number, search: string, userId: number) => {
+    return execute<MealDTO[]>(mealQueries.readMealsDTOByNameSearchAndCategory, [categoryId, '%' + search + '%', userId]);
 };
 
 export const readMealsByNameSearch = async (search: string, userId: number) => {

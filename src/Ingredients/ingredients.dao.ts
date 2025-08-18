@@ -3,8 +3,8 @@ import { OkPacket } from "mysql";
 import { execute } from "../services/mysql.connector";
 import { ingredientQueries } from "./ingredients.queries";
 
-export const createIngredient = async (ingredient: Ingredient, userId: number) => {
-    return execute<OkPacket>(ingredientQueries.createIngredient, [ingredient.name, userId])
+export const createIngredient = async (name: string, userId: number) => {
+    return execute<OkPacket>(ingredientQueries.createIngredient, [name, userId])
 };
 
 export const readIngredients = async (userId: number) => {

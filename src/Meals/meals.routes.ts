@@ -7,7 +7,11 @@ router.route('/meals').post(mealsController.createMeal);
 
 router.route('/meals').get(mealsController.readMeals);
 
+router.route('/meals/search/:searchParam').get(mealsController.readMealsBySearchParams);
+
 router.route('/meals/:mealId').get(mealsController.readMealById);
+
+router.route('/meals/category/:category').get(mealsController.readMealsByCategory);
 
 router.route('/meals/category/:categoryId').get(mealsController.readMealsByCategoryId);
 
@@ -22,6 +26,8 @@ router.route('/meals/filters/desc').get(mealsController.readMealsByAlphabetDesc)
 router.route('/meals/name/:mealName').get(mealsController.readMealByName);
 
 router.route('/meals/search/name/:search').get(mealsController.readMealsByNameSearch);
+
+router.route('/meals/search/category-name/:categoryId/:search').get(mealsController.readMealsByNameSearchAndCategory);
 
 router.route('/meals').put(mealsController.updateMeal);
 

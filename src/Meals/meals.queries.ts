@@ -6,17 +6,63 @@ export const mealQueries = {
         `INSERT INTO meals (name, description, default_categories_id, users_id) 
         VALUES (?, ?, ?, ?);`,
 
+        
     readMealsDTO: `
         SELECT meals.id AS mealId, meals.name AS name, meals.description AS description, meals.default_categories_id AS defaultCategoryId, categories.name AS defaultCategoryName
         FROM meals
         JOIN categories ON meals.default_categories_id = categories.id
-        WHERE meals.users_id = ?;`,
+        WHERE meals.users_id = ?
+        ORDER BY meals.name ASC;`,
 
-    readMealsDTOByCategory: `
+    readMealsBySearchParams: `
+        SELECT DISTINCT
+        meals.id AS mealId,
+        meals.name AS name,
+        meals.description AS description,
+        meals.default_categories_id AS defaultCategoryId,
+        categories.name AS defaultCategoryName
+        FROM meals
+        JOIN categories ON meals.default_categories_id = categories.id
+        LEFT JOIN meal_ingredients ON meals.id = meal_ingredients.meals_id
+        LEFT JOIN ingredients ON meal_ingredients.ingredients_id = ingredients.id
+        WHERE meals.users_id = ?
+        AND (
+            meals.name LIKE ?
+        OR meals.description LIKE ?
+        OR ingredients.name LIKE ?
+        )
+        ORDER BY meals.name ASC;`,
+        
+/*
+    readMealsDTO:`SELECT 
+        meals.id AS mealId,
+        meals.name AS name,
+        meals.description AS description,
+        meals.default_categories_id AS defaultCategoryId,
+        categories.name AS defaultCategoryName,
+        ingredients.id AS ingredientId,
+        ingredients.name AS ingredientName,
+        meal_ingredients.qty AS qty,
+        meal_ingredients.measurements_id AS measurementId
+    FROM meals
+    JOIN categories ON meals.default_categories_id = categories.id
+    LEFT JOIN meal_ingredients ON meals.id = meal_ingredients.meals_id
+    LEFT JOIN ingredients ON meal_ingredients.ingredients_id = ingredients.id
+    WHERE meals.users_id = ?;`,
+    */
+
+
+    readMealsDTOByCategoryId: `
         SELECT meals.id AS mealId, meals.name, meals.description, meals.default_categories_id AS defaultCategoryId, categories.name AS defaultCategoryName
         FROM meals
         JOIN categories ON meals.default_categories_id = categories.id
         WHERE meals.default_categories_id = ? AND meals.users_id = ?;`,
+
+        readMealsDTOByCategory: `
+        SELECT meals.id AS mealId, meals.name, meals.description, meals.default_categories_id AS defaultCategoryId, categories.name AS defaultCategoryName
+        FROM meals
+        JOIN categories ON meals.default_categories_id = categories.id
+        WHERE categories.name = ? AND meals.users_id = ?;`,
 
     readMealDTOById: `
         SELECT meals.id AS mealId, meals.name, meals.description, meals.default_categories_id AS defaultCategoryId, categories.name AS defaultCategoryName
@@ -35,6 +81,11 @@ export const mealQueries = {
         FROM meals
         JOIN categories ON meals.default_categories_id = categories.id
         WHERE meals.name LIKE ? AND meals.users_id = ?;`,
+
+    readMealsDTOByNameSearchAndCategory: `SELECT meals.id AS mealId, meals.name, meals.description, meals.default_categories_id AS defaultCategoryId, categories.name AS defaultCategoryName
+        FROM meals
+        JOIN categories ON meals.default_categories_id = categories.id
+        WHERE meals.default_categories_id = ? AND meals.name LIKE ? AND meals.users_id = ?`,
 
     readMealsDTOByDescriptionSearch: `
         SELECT meals.id AS mealId, meals.name, meals.description, meals.default_categories_id AS defaultCategoryId, categories.name AS defaultCategoryName

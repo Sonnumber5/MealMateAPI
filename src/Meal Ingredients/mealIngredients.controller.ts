@@ -2,24 +2,40 @@ import { RequestHandler, Request, Response } from "express";
 import { OkPacket } from "mysql";
 import { MealIngredientDTO, MealIngredient } from "./mealIngredients.model";
 import * as mealIngredientsDAO from './mealIngredients.dao';
+import * as ingredientsDAO from '../Ingredients/ingredients.dao';
+import { Ingredient } from "../Ingredients/ingredients.model";
 
 export const createMealIngredient: RequestHandler = async (req: Request, res: Response) => {
-    try{
-        
-        const okPacket: OkPacket = await mealIngredientsDAO.createMealIngredient(req.body);
+    let userId = 1;
+    try {
+        let ingredients = await ingredientsDAO.readIngredientByName(req.body.name, userId);
+        let ingredient = ingredients[0];
 
-        console.log('req.body', req.body);
+        if (!ingredient) {
+            await ingredientsDAO.createIngredient(req.body.name, userId);
+            ingredients = await ingredientsDAO.readIngredientByName(req.body.name, userId);
+            ingredient = ingredients[0];
+        }
 
-        console.log('mealIngredient', okPacket);
+        const mealIngredient = {
+            mealId: req.body.mealId,
+            ingredientId: ingredient.ingredientId,
+            qty: req.body.qty,
+            measurementId: req.body.measurementId,
+            userId
+        };
+
+        const okPacket: OkPacket = await mealIngredientsDAO.createMealIngredient(mealIngredient);
 
         res.status(201).json(okPacket);
-    } catch (error){
-        console.log('[mealIngredients.controller][createMealIngredient][Error]', error);
+    } catch (error) {
+        console.error('[mealIngredients.controller][createMealIngredient][Error]', error);
         res.status(500).json({
             message: 'There was an error when attempting to create meal ingredient'
         });
     }
 };
+
 
 export const readMeasurements: RequestHandler = async (req: Request, res: Response) => {
     try{
