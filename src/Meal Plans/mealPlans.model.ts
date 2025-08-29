@@ -1,15 +1,14 @@
+import { MealDTO } from "../Meals/meals.model";
+
 export interface MealPlan {
     mealPlanId: number;
-    date: Date;
+    day: string;
     mealId: number;
-    selectedCategoryId: number;
 }
 
 export interface MealPlanDTO {
     mealPlanId: number;
-    date: Date;
+    day: string;
     mealId: number;
-    mealName: string;
-    selectedCategoryId: number;
-    selectedCategoryName: string;
+    meal: MealDTO; 
 }

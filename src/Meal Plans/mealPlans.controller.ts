@@ -2,6 +2,8 @@ import { RequestHandler, Request, Response } from "express";
 import { MealPlan, MealPlanDTO } from "./mealPlans.model";
 import { OkPacket } from "mysql";
 import * as mealPlanDAO from './mealPlans.dao';
+import {readIngredients} from '../Meals/meals.controller';
+import { readMealById } from "../Meals/meals.dao";
 
 export const createMealPlan: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1; // for testing purposes
@@ -24,6 +26,8 @@ export const readMealPlans: RequestHandler = async(req: Request, res: Response) 
     let userId = 1;
     try {
         const mealPlans = await mealPlanDAO.readMealPlans(userId);
+       
+        await readMealsForMealPlans(mealPlans);
 
         res.status(200).json(mealPlans);
     } catch(error){
@@ -34,18 +38,17 @@ export const readMealPlans: RequestHandler = async(req: Request, res: Response) 
     }
 }
 
-export const readMealPlansByDate: RequestHandler = async (req: Request, res: Response) => {
+async function readMealsForMealPlans(mealPlans: MealPlanDTO[]) {
     let userId = 1;
-    try {
-        let dateString = req.params.date;
-        let mealPlans = await mealPlanDAO.readMealPlansByDate(dateString, userId);
-
-        res.status(200).json(mealPlans);
-    } catch(error) {
-        console.log('[mealPlans.controller][readMealPlansByDate][Error]', error);
-        res.status(500).json({
-            message: 'There was an error when attempting to read meal plans by date'
-        });
+    for (let i = 0; i < mealPlans.length; i++){
+        try{
+            const meals = await readMealById(mealPlans[i].mealId, userId);
+            mealPlans[i].meal = meals[0];
+            await readIngredients(meals);
+            console.log("MealPlan[" + i + "] meal element:",  mealPlans[i].meal);
+        }catch(error){
+            console.error('Error fetching meal for mealId', mealPlans[i].mealId, error);
+        }
     }
 }
 

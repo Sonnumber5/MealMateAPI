@@ -57,6 +57,7 @@ export const readMealsBySearchParams: RequestHandler = async (req: Request, res:
     }
 }
 
+/*
 export const readMealsByCategoryId: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
     try{
@@ -71,6 +72,7 @@ export const readMealsByCategoryId: RequestHandler = async (req: Request, res: R
         });
     }
 }
+    */
 
 export const readMealsByCategory: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
@@ -89,6 +91,7 @@ export const readMealsByCategory: RequestHandler = async (req: Request, res: Res
     }
 }
 
+/*
 export const readMealsByNameSearchAndCategory: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
     try{
@@ -104,12 +107,15 @@ export const readMealsByNameSearchAndCategory: RequestHandler = async (req: Requ
         });
     }
 }
+*/
 
 export const readMealById: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
     try{
         let mealId = parseInt(req.params.mealId as string)
         const meals = await mealsDAO.readMealById(mealId, userId);
+
+        await readIngredients(meals);
 
         let meal = meals[0];
         res.status(200).json(meal);
@@ -121,6 +127,7 @@ export const readMealById: RequestHandler = async (req: Request, res: Response) 
     }
 }
 
+/*
 export const readMealByName: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
     try{
@@ -135,6 +142,7 @@ export const readMealByName: RequestHandler = async (req: Request, res: Response
         });
     }
 }
+    */
 
 export const readMealsByNameSearch: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
@@ -242,8 +250,7 @@ export const deleteMeal: RequestHandler = async (req: Request, res: Response) =>
     }
 }
 
-async function readIngredients(meals: MealDTO[]) {
-    console.log('readIngredients called');
+export async function readIngredients(meals: MealDTO[]) {
     for (let i = 0; i < meals.length; i++){
         try{
             const mealIngredients = await mealIngredientsDAO.readMealIngredientsByMealId(meals[i].mealId);
