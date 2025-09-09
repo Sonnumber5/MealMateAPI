@@ -5,9 +5,9 @@ import * as ingredientsDAO from './ingredients.dao';
 
 
 export const createIngredient: RequestHandler = async (req: Request, res: Response) => {
-    let userId = 1; //user id 1 for testing 
+    //let userId = 1; //user id 1 for testing 
     try{
-        const okPacket: OkPacket = await ingredientsDAO.createIngredient(req.body.name, userId);
+        const okPacket: OkPacket = await ingredientsDAO.createIngredient(req.body.name);
         
         console.log('req.body', req.body);
         console.log('ingredient', okPacket);
@@ -24,9 +24,9 @@ export const createIngredient: RequestHandler = async (req: Request, res: Respon
 
 
 export const readIngredients: RequestHandler = async (req: Request, res: Response) => {
-    let userId = 1; //user id 1 for testing 
+    //let userId = 1; //user id 1 for testing 
     try{
-        const ingredients = await ingredientsDAO.readIngredients(userId);
+        const ingredients = await ingredientsDAO.readIngredients();
         
         res.status(200).json(ingredients);
 
@@ -39,10 +39,10 @@ export const readIngredients: RequestHandler = async (req: Request, res: Respons
 };
 
 export const readIngredientByName: RequestHandler = async (req: Request, res: Response) => {
-    let userId = 1; //user id 1 for testing 
+    //let userId = 1; //user id 1 for testing 
     try{
         console.log('ingredient', req.params.ingredient);
-        const ingredients = await ingredientsDAO.readIngredientByName(req.params.ingredient, userId);
+        const ingredients = await ingredientsDAO.readIngredientByName(req.params.ingredient);
         let ingredientToReturn = ingredients[0];
 
         res.status(200).json(ingredientToReturn);
@@ -56,10 +56,10 @@ export const readIngredientByName: RequestHandler = async (req: Request, res: Re
 };
 
 export const readIngredientByNameSearch: RequestHandler = async (req: Request, res: Response) => {
-    let userId = 1; //user id 1 for testing 
+    //let userId = 1; //user id 1 for testing 
     try{
         console.log('search', req.params.search);
-        const ingredients = await ingredientsDAO.readIngredientByNameSearch('%' + req.params.search + '%', userId);
+        const ingredients = await ingredientsDAO.readIngredientByNameSearch('%' + req.params.search + '%');
 
         res.status(200).json(ingredients);
 
@@ -72,9 +72,9 @@ export const readIngredientByNameSearch: RequestHandler = async (req: Request, r
 };
 
 export const updateIngredient: RequestHandler = async (req: Request, res: Response) => {
-    let userId = 1; //user id 1 for testing 
+    //let userId = 1; //user id 1 for testing 
     try{
-        const okPacket: OkPacket = await ingredientsDAO.updateIngredient(req.body, userId);
+        const okPacket: OkPacket = await ingredientsDAO.updateIngredient(req.body);
 
         console.log('req.body', req.body);
 
@@ -91,14 +91,14 @@ export const updateIngredient: RequestHandler = async (req: Request, res: Respon
 }
 
 export const deleteIngredient: RequestHandler = async (req: Request, res: Response) => {
-    let userId = 1; //user id 1 for testing 
+    //let userId = 1; //user id 1 for testing 
     try{
         let ingredientId = parseInt(req.params.ingredientId as string);
 
         console.log('ingredientId', ingredientId);
 
         if (!Number.isNaN(ingredientId)){
-            const response = await ingredientsDAO.deleteIngredient(ingredientId, userId);
+            const response = await ingredientsDAO.deleteIngredient(ingredientId);
 
             res.status(200).json(response);
         } else {
