@@ -8,6 +8,7 @@ import logger from './middleware/logger.middleware'; // Custom logging middlewar
 import cors from 'cors'; // CORS middleware
 import helmet from 'helmet'; // Security middleware
 import categoryRouter from './Categories/categories.routes';
+import groceryItemRouter from './Grocery Items/groceryItems.routes';
 
 dotenv.config();
 
@@ -41,7 +42,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // Mount routers 
-app.use('/', [ingredientRouter, mealIngredientRouter, mealPlanRouter, mealRouter, categoryRouter]); // Use albums, tracks, and artists routes for the root path
+app.use('/', [ingredientRouter, mealIngredientRouter, mealPlanRouter, mealRouter, categoryRouter, groceryItemRouter]); // Use albums, tracks, and artists routes for the root path
 
 // Start the Express server
 app.listen(port, () => {
