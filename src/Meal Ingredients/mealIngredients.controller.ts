@@ -8,12 +8,12 @@ import { Ingredient } from "../Ingredients/ingredients.model";
 export const createMealIngredient: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
     try {
-        let ingredients = await ingredientsDAO.readIngredientByName(req.body.name, userId);
+        let ingredients = await ingredientsDAO.readIngredientByName(req.body.name);
         let ingredient = ingredients[0];
 
         if (!ingredient) {
-            await ingredientsDAO.createIngredient(req.body.name, userId);
-            ingredients = await ingredientsDAO.readIngredientByName(req.body.name, userId);
+            await ingredientsDAO.createIngredient(req.body.name);
+            ingredients = await ingredientsDAO.readIngredientByName(req.body.name);
             ingredient = ingredients[0];
         }
 
