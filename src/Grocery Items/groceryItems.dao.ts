@@ -8,17 +8,17 @@ export const createGroceryItem = async (groceryItem: GroceryItem, userId: number
 }
 
 export const readGroceryItems = async (userId: number) => {
-    return execute<GroceryItem[]>(groceryItemQueries.readGroceryItems, [userId]);
+    return execute<GroceryItem[]>(groceryItemQueries.getAllGroceryItemsByUser, [userId]);
 }
 
 export const updateGroceryItem = async (groceryItem: GroceryItem, groceryItemId: number, userId: number) => {
-    return execute<OkPacket>(groceryItemQueries.updateGroceryItem, [groceryItem.name, groceryItem.qty, groceryItem.measurements_id, groceryItem.isChecked, groceryItemId, userId]);
+    return execute<OkPacket>(groceryItemQueries.updateGroceryItemById, [groceryItem.name, groceryItem.qty, groceryItem.measurements_id, groceryItem.isChecked, groceryItemId, userId]);
 }
 
 export const deleteGroceryItem = async (groceryItemId: number, userId: number) => {
-    return execute<OkPacket>(groceryItemQueries.deleteGroceryItem, [groceryItemId, userId]);
+    return execute<OkPacket>(groceryItemQueries.deleteGroceryItemById, [groceryItemId, userId]);
 }
 
 export const toggleIsChecked = async (isChecked: boolean, groceryItemId: number, userId: number) => {
-    return execute<OkPacket>(groceryItemQueries.toggleItemChecked, [isChecked, groceryItemId, userId]);
+    return execute<OkPacket>(groceryItemQueries.setGroceryItemCheckedById, [isChecked, groceryItemId, userId]);
 }

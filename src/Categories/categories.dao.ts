@@ -3,5 +3,5 @@ import { Category } from "./categories.model";
 import { categoryQueries } from "./categories.queries";
 
 export const readCategories = async () => {
-    return execute<Category[]>(categoryQueries.readCategories, []);
+    return execute<Category[]>(categoryQueries.getCategories, []);
 };
