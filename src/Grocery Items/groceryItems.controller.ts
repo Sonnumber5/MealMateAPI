@@ -50,6 +50,24 @@ export const updateGroceryItem = async (req: Request, res: Response) => {
     }
 };
 
+export const toggleIsChecked = async (req: Request, res: Response) => {
+    let userId = 1;
+    try{
+        const groceryItemId = parseInt(req.params.groceryItemId as string);
+        const isCheckedValue = req.body.isChecked;
+        const okPacket: OkPacket = await groceryItemsDAO.toggleIsChecked(isCheckedValue, groceryItemId, userId);
+
+        console.log('req.body', req.body);
+
+        res.status(200).json(okPacket);
+    } catch(error){
+        console.log('[groceryItems.controller][toggleIsChecked][Error]', error);
+        res.status(500).json({
+            message: 'There was an error while attempting to toggle grocery item\'s isChecked value'
+        });
+    }
+};
+
 export const deleteGroceryItem = async (req: Request, res: Response) => {
     let userId = 1; //user id 1 for testing 
     try{

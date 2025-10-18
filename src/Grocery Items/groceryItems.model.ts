@@ -3,4 +3,5 @@ export interface GroceryItem{
     name: string,
     qty: number,
     measurements_id: number,
+    isChecked: boolean,
 }

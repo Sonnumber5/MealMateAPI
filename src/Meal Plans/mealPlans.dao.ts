@@ -8,13 +8,13 @@ export const createMealPlan = async (mealPlan: MealPlan, userId: number) => {
 };
 
 export const readMealPlans = async (userId: number) => {
-    return execute<MealPlanDTO[]>(mealPlanQueries.readMealPlansDTO, [userId]);
+    return execute<MealPlanDTO[]>(mealPlanQueries.getMealPlansByUser, [userId]);
 };
 
 export const updateMealPlan = async (mealPlan: MealPlan, userId: number) => {
-    return execute<OkPacket>(mealPlanQueries.updateMealPlan, [mealPlan.day, mealPlan.mealId, mealPlan.mealPlanId, userId]);
+    return execute<OkPacket>(mealPlanQueries.updateMealPlanById, [mealPlan.day, mealPlan.mealId, mealPlan.mealPlanId, userId]);
 };
 
 export const deleteMealPlan = async (mealPlanId: number, userId: number) => {
-    return execute<OkPacket>(mealPlanQueries.deleteMealPlan, [mealPlanId, userId])
+    return execute<OkPacket>(mealPlanQueries.deleteMealPlanById, [mealPlanId, userId])
 }

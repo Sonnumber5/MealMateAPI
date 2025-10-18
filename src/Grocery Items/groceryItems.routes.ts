@@ -11,4 +11,6 @@ router.route('/groceryItems/:groceryItemId').put(groceryItemsController.updateGr
 
 router.route('/groceryItems/:groceryItemId').delete(groceryItemsController.deleteGroceryItem);
 
+router.route('/groceryItems/toggleChecked/:groceryItemId').put(groceryItemsController.toggleIsChecked);
+
 export default router;

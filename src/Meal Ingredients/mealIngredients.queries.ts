@@ -1,44 +1,62 @@
 export const mealIngredientQueries = {
     createMealIngredient: `
-        INSERT INTO meal_ingredients (meals_id, ingredients_id, qty, measurements_id) 
-        VALUES (?, ?, ?, ?)`,
-
-        readMealIngredientsDTO: `
-        SELECT meal_ingredients.meals_id AS mealId, meal_ingredients.ingredients_id AS ingredientId, ingredients.name AS ingredient, meal_ingredients.qty AS qty, meal_ingredients.measurements_id AS measurementId, measurements.measurement AS measurement
-        FROM meal_ingredients
-        JOIN ingredients ON meal_ingredients.ingredients_id = ingredients.id
-        LEFT JOIN measurements ON meal_ingredients.measurements_id = measurements.id
-        WHERE ingredients.users_id = ?`,
-        
-        readMeasurements: `SELECT id AS measurementId, measurement FROM measurements`,
-    
-    readMealIngredientsDTOByMealId: `
-        SELECT meal_ingredients.meals_id AS mealId, meal_ingredients.ingredients_id AS ingredientId, ingredients.name AS ingredient, meal_ingredients.qty AS qty, meal_ingredients.measurements_id AS measurementId, measurements.measurement AS measurement
-        FROM meal_ingredients
-        JOIN ingredients ON meal_ingredients.ingredients_id = ingredients.id
-        JOIN measurements ON meal_ingredients.measurements_id = measurements.id
-        WHERE meal_ingredients.meals_id = ?`,
-
-    readMealIngredientDTOByMealAndIngredientId: `
-        SELECT meal_ingredients.meals_id AS mealId, meal_ingredients.ingredients_id AS ingredientId, ingredients.name AS ingredient, meal_ingredients.qty AS qty, meal_ingredients.measurements_id AS measurementId, measurements.measurement AS measurement
-        FROM meal_ingredients
-        JOIN ingredients ON meal_ingredients.ingredients_id = ingredients.id
-        JOIN measurements ON meal_ingredients.measurements_id = measurements.id
-        WHERE meal_ingredients.meals_id = ? AND meal_ingredients.ingredients_id = ? AND users_id = ?`,
-    
-    /* raw/normalized queries
-    readMealIngredientsByMealId: `
-        SELECT meals_id AS mealId, meal_ingredients.ingredients_id AS ingredientId, meal_ingredients.qty AS qty, measurement_id AS measurementId
-        FROM meal_ingredients 
-        WHERE meals_id = ?`,
-     */
-
-    updateMealIngredient: `
-        UPDATE meal_ingredients
-        SET ingredients_id = ?, qty = ?, measurements_id = ?
-        WHERE meals_id = ? AND ingredients_id = ?`,
-
-    deleteMealIngredient: `
-        DELETE FROM meal_ingredients 
-        WHERE meals_id = ? AND ingredients_id = ?`,
-};
+      INSERT INTO meal_ingredients (meals_id, ingredients_id, qty, measurements_id) 
+      VALUES (?, ?, ?, ?);
+    `,
+  
+    getMealIngredientsByUser: `
+      SELECT 
+        mi.meals_id AS mealId,
+        mi.ingredients_id AS ingredientId,
+        i.name AS ingredient,
+        mi.qty AS qty,
+        mi.measurements_id AS measurementId,
+        m.measurement AS measurement
+      FROM meal_ingredients mi
+      JOIN ingredients i ON mi.ingredients_id = i.id
+      LEFT JOIN measurements m ON mi.measurements_id = m.id
+      WHERE i.users_id = ?;
+    `,
+  
+    getMealIngredientsByMealId: `
+      SELECT 
+        mi.meals_id AS mealId,
+        mi.ingredients_id AS ingredientId,
+        i.name AS ingredient,
+        mi.qty AS qty,
+        mi.measurements_id AS measurementId,
+        m.measurement AS measurement
+      FROM meal_ingredients mi
+      JOIN ingredients i ON mi.ingredients_id = i.id
+      JOIN measurements m ON mi.measurements_id = m.id
+      WHERE mi.meals_id = ?;
+    `,
+  
+    getMealIngredientByMealAndIngredientId: `
+      SELECT 
+        mi.meals_id AS mealId,
+        mi.ingredients_id AS ingredientId,
+        i.name AS ingredient,
+        mi.qty AS qty,
+        mi.measurements_id AS measurementId,
+        m.measurement AS measurement
+      FROM meal_ingredients mi
+      JOIN ingredients i ON mi.ingredients_id = i.id
+      JOIN measurements m ON mi.measurements_id = m.id
+      WHERE mi.meals_id = ? AND mi.ingredients_id = ? AND users_id = ?;
+    `,
+  
+    getAllMeasurements: `SELECT id AS measurementId, measurement FROM measurements;`,
+  
+    updateMealIngredientByIds: `
+      UPDATE meal_ingredients
+      SET ingredients_id = ?, qty = ?, measurements_id = ?
+      WHERE meals_id = ? AND ingredients_id = ?;
+    `,
+  
+    deleteMealIngredientByIds: `
+      DELETE FROM meal_ingredients 
+      WHERE meals_id = ? AND ingredients_id = ?;
+    `
+  };
+  
