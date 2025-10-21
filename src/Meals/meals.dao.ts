@@ -4,7 +4,7 @@ import { Meal, MealDTO } from './meals.model';
 import { mealQueries } from './meals.queries';
 
 export const createMeal = async (meal: Meal, userId: number) => {
-    return execute<OkPacket>(mealQueries.createMeal, [meal.name, meal.description, meal.defaultCategoryId, userId]);
+    return execute<OkPacket>(mealQueries.createMeal, [meal.name, meal.defaultCategoryId, userId]);
 };
 
 export const readMeals = async (userId: number) => {
@@ -39,10 +39,6 @@ export const readMealsByNameSearch = async (search: string, userId: number) => {
     return execute<MealDTO[]>(mealQueries.getMealsByNameSearch, ['%' + search + '%', userId]);
 };
 
-export const readMealsByDescriptionSearch = async (search: string, userId: number) => {
-    return execute<MealDTO[]>(mealQueries.getMealsByDescriptionSearch, ['%' + search + '%', userId]);
-};
-
 export const readMealsByAlphabetAsc = async (userId: number) => {
     return execute<MealDTO[]>(mealQueries.getMealsAlphabeticallyAsc, [userId]);
 };
@@ -56,7 +52,7 @@ export const readMealsByIngredientSearch = async (ingredient: string, userId: nu
 };
 
 export const updateMeal = async (meal: Meal, userId: number) => {
-    return execute<OkPacket>(mealQueries.updateMealById, [meal.name, meal.description, meal.defaultCategoryId, meal.mealId, userId]);
+    return execute<OkPacket>(mealQueries.updateMealById, [meal.name, meal.defaultCategoryId, meal.mealId, userId]);
 };
 
 export const deleteMeal = async (mealId: number, userId: number) => {

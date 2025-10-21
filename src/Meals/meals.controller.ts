@@ -158,20 +158,6 @@ export const readMealsByNameSearch: RequestHandler = async (req: Request, res: R
     }
 }
 
-export const readMealsByDescriptionSearch: RequestHandler = async (req: Request, res: Response) => {
-    let userId = 1;
-    try{
-        const meals = await mealsDAO.readMealsByDescriptionSearch('%' + req.params.search + '%', userId);
-
-        res.status(200).json(meals);
-    }catch (error){
-        console.log('[meals.controller][readMealsByDescriptionSearch][Error]', error);
-        res.status(500).json({
-            message: 'There was an error while attempting to read meals by description search'
-        });
-    }
-}
-
 export const readMealsByAlphabetAsc: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1;
     try{
