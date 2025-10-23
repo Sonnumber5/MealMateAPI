@@ -11,10 +11,11 @@ export const createMeal: RequestHandler = async (req: Request, res: Response) =>
         const okPacket: OkPacket = await mealsDAO.createMeal(req.body, userId);
 
         console.log('req.body', req.body);
-
         console.log('Meal', okPacket);
 
-        res.status(201).json(okPacket);
+        const newMeal = await mealsDAO.readMealById(okPacket.insertId, userId);
+
+        res.status(201).json(newMeal[0]);
     }catch(error){
         console.log('[meals.controller][createMeal][Error]', error);
         res.status(500).json({
