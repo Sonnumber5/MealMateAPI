@@ -10,7 +10,10 @@ export const createGroceryItem = async (req: Request, res: Response) => {
 
         console.log('req.body', req.body);
 
-        res.status(201).json(okPacket);
+        const newGroceryItem = await groceryItemsDAO.readGroceryItemById(okPacket.insertId, userId);
+        console.log("NEW GROCERY ITEM ID: ", okPacket.insertId);
+
+        res.status(201).json(newGroceryItem[0]);
     } catch(error){
         console.error('[groceryItems.controller][createGroceryItem][Error]', error);
         res.status(500).json({

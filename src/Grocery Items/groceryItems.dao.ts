@@ -11,6 +11,10 @@ export const readGroceryItems = async (userId: number) => {
     return execute<GroceryItem[]>(groceryItemQueries.getAllGroceryItemsByUser, [userId]);
 }
 
+export const readGroceryItemById = async (groceryItemId: number, userId: number) => {
+    return execute<GroceryItem[]>(groceryItemQueries.getGroceryItemById, [groceryItemId, userId]);
+}
+
 export const updateGroceryItem = async (groceryItem: GroceryItem, groceryItemId: number, userId: number) => {
     return execute<OkPacket>(groceryItemQueries.updateGroceryItemById, [groceryItem.name, groceryItem.qty, groceryItem.measurements_id, groceryItem.isChecked, groceryItemId, userId]);
 }
