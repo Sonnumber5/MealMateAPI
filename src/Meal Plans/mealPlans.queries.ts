@@ -13,6 +13,15 @@ export const mealPlanQueries = {
       JOIN meals m ON mp.meals_id = m.id
       WHERE mp.meals_users_id = ?;
     `,
+
+    getMealPlanById: `      
+      SELECT 
+        mp.id AS mealPlanId,
+        mp.day AS day,
+        mp.meals_id AS mealId
+      FROM meal_plans mp
+      JOIN meals m ON mp.meals_id = m.id
+      WHERE mp.id = ? AND mp.meals_users_id = ?;`,
   
     updateMealPlanById: `
       UPDATE meal_plans

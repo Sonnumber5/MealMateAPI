@@ -8,13 +8,17 @@ import { readMealById } from "../Meals/meals.dao";
 export const createMealPlan: RequestHandler = async (req: Request, res: Response) => {
     let userId = 1; // for testing purposes
     try {
-        const okPacket: OkPacket = await mealPlanDAO.createMealPlan(req.body, userId);
+        const okPacket: OkPacket = await mealPlanDAO.createMealPlan(req.body.day, req.body.meals_id, userId);
 
         console.log('req.body', req.body);
         console.log('mealPlan', okPacket);
 
-        res.status(201).json(okPacket);
+        const newMealPlan = await mealPlanDAO.readMealPlanById(okPacket.insertId, userId);
+        console.log("NEW MEAL PLAN: ", newMealPlan[0]);
+
+        res.status(201).json(newMealPlan[0]);
     } catch (error){
+        console.log("req.body: ", req.body);
         console.log('[mealPlans.controller][createMealPlan][Error]', error);
         res.status(500).json({
             message: 'There was an error when attempting to create a meal plan'
