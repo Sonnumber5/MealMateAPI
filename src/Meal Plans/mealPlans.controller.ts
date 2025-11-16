@@ -14,7 +14,7 @@ export const createMealPlan: RequestHandler = async (req: Request, res: Response
         console.log('mealPlan', okPacket);
 
         const newMealPlan = await mealPlanDAO.readMealPlanById(okPacket.insertId, userId);
-        console.log("NEW MEAL PLAN: ", newMealPlan[0]);
+        await readMealsForMealPlans(newMealPlan);
 
         res.status(201).json(newMealPlan[0]);
     } catch (error){

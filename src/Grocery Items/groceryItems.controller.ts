@@ -26,6 +26,7 @@ export const readGroceryItems = async (req: Request, res: Response) => {
     let userId = 1; //user id 1 for testing 
     try{
         const groceryItems = await groceryItemsDAO.readGroceryItems(userId);
+        console.log('Grocery Items:', groceryItems);
 
         res.status(200).json(groceryItems);
     } catch(error){
@@ -36,6 +37,7 @@ export const readGroceryItems = async (req: Request, res: Response) => {
     }
 };
 
+/*
 export const updateGroceryItem = async (req: Request, res: Response) => {
     let userId = 1; //user id 1 for testing 
     try{
@@ -52,6 +54,7 @@ export const updateGroceryItem = async (req: Request, res: Response) => {
         });
     }
 };
+*/
 
 export const toggleIsChecked = async (req: Request, res: Response) => {
     let userId = 1;
@@ -81,9 +84,9 @@ export const deleteGroceryItem = async (req: Request, res: Response) => {
 
         res.status(200).json(okPacket);
     } catch(error){
-        console.log('[groceryItems.controller][updateGroceryItem][Error]', error);
+        console.log('[groceryItems.controller][deleteGroceryItem][Error]', error);
         res.status(500).json({
-            message: 'There was an error while attempting to update the grocery item'
+            message: 'There was an error while attempting to delete the grocery item'
         });
     }
 };
