@@ -8,7 +8,7 @@ router.route('/groceryItems').post(groceryItemsController.createGroceryItem);
 router.route('/groceryItems').get(groceryItemsController.readGroceryItems);
 
 //router.route('/groceryItems/:groceryItemId').put(groceryItemsController.updateGroceryItem);
-//test
+//test update
 
 router.route('/groceryItems/:groceryItemId').delete(groceryItemsController.deleteGroceryItem);
 
