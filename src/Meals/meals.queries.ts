@@ -2,15 +2,14 @@ export const mealQueries = {
     getAllCategories: `SELECT id AS categoryId, name FROM categories;`,
   
     createMeal: `
-      INSERT INTO meals (name, description, default_categories_id, users_id) 
-      VALUES (?, ?, ?, ?);
+      INSERT INTO meals (name, default_categories_id, users_id) 
+      VALUES (?, ?, ?);
     `,
   
     getAllMealsByUser: `
       SELECT 
         m.id AS mealId,
         m.name AS name,
-        m.description AS description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -23,7 +22,6 @@ export const mealQueries = {
       SELECT DISTINCT
         m.id AS mealId,
         m.name AS name,
-        m.description AS description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -32,7 +30,7 @@ export const mealQueries = {
       LEFT JOIN ingredients i ON mi.ingredients_id = i.id
       WHERE m.users_id = ?
         AND (
-          m.name LIKE ? OR m.description LIKE ? OR i.name LIKE ?
+          m.name LIKE ? OR i.name LIKE ?
         )
       ORDER BY m.name ASC;
     `,
@@ -41,7 +39,6 @@ export const mealQueries = {
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -53,7 +50,6 @@ export const mealQueries = {
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -65,7 +61,6 @@ export const mealQueries = {
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -77,7 +72,6 @@ export const mealQueries = {
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -89,7 +83,6 @@ export const mealQueries = {
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -101,7 +94,6 @@ export const mealQueries = {
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -109,23 +101,10 @@ export const mealQueries = {
       WHERE m.default_categories_id = ? AND m.name LIKE ? AND m.users_id = ?;
     `,
   
-    getMealsByDescriptionSearch: `
-      SELECT 
-        m.id AS mealId,
-        m.name,
-        m.description,
-        m.default_categories_id AS defaultCategoryId,
-        c.name AS defaultCategoryName
-      FROM meals m
-      JOIN categories c ON m.default_categories_id = c.id
-      WHERE m.description LIKE ? AND m.users_id = ?;
-    `,
-  
     getMealsAlphabeticallyAsc: `
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -138,7 +117,6 @@ export const mealQueries = {
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -151,7 +129,6 @@ export const mealQueries = {
       SELECT 
         m.id AS mealId,
         m.name,
-        m.description,
         m.default_categories_id AS defaultCategoryId,
         c.name AS defaultCategoryName
       FROM meals m
@@ -159,12 +136,12 @@ export const mealQueries = {
       JOIN meal_ingredients mi ON mi.meals_id = m.id
       JOIN ingredients i ON mi.ingredients_id = i.id
       WHERE i.name LIKE ? AND m.users_id = ?
-      GROUP BY m.id, m.name, m.description, m.default_categories_id, c.name;
+      GROUP BY m.id, m.name, m.default_categories_id, c.name;
     `,
   
     updateMealById: `
       UPDATE meals
-      SET name = ?, description = ?, default_categories_id = ?
+      SET name = ?, default_categories_id = ?
       WHERE id = ? AND users_id = ?;
     `,
   
